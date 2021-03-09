@@ -1,0 +1,71 @@
+
+def trifeca(word):
+    """Checks whether word contains three consecutive double-letter pairs.
+
+    Parameters
+    ----------
+    word : string
+        Input to check
+
+    Returns
+    -------
+    result : bool
+        True if three consecutive double-letter pairs were found,
+        False otherwise
+    """
+    
+    if len(word) < 6:
+        boolian = False
+    
+    odds = word[1::2] 
+    evens = word[0::2]
+    
+    for i in range(0, len(odds)):
+        if i == len(odds) - 2: # stop checking if the sub-string is less than 3 letters
+            boolian = False
+            break
+        elif odds[i:i+3] == evens[i:i+3]: # obvious frame
+            boolian = True
+            break
+        elif odds[i:i+3] == evens[i+1:i+4]: # shifted frame
+            boolian = True
+            break
+                  
+    return boolian
+
+
+def compare_subjects_within_student(
+    subj1_all_students,
+    subj2_all_students
+):
+    """Compare the two subjects with their students and print out the higher-graded
+    subject for each student.
+
+    Single-subject students shouldn't be printed.
+
+    Parameters
+    ----------
+    subj1_all_students, subj2_all_students
+        Data structures which contain the grades of all students in a given
+        subject.
+
+    Notes
+    -----
+    Choice for the data structure of the function's arguments is up to you.
+
+    Returns
+    -------
+    A data structure with the name of the student and the corresponding subject.
+    """
+    
+    students = set(subj1_all_students.keys()) & set(subj2_all_students.keys()) # defining which students will be included in the final dictionary
+        
+    final_dictionary = {} 
+    for i in students: # for each student deciding which subject is higher-graded
+        if max(subj1_all_students.setdefault(i)) > max(subj2_all_students.setdefault(i)): 
+            final_dictionary.setdefault(i, 'subj1')
+        elif max(subj1_all_students.setdefault(i)) < max(subj2_all_students.setdefault(i)):
+            final_dictionary.setdefault(i, 'subj2')
+            
+            
+    return(final_dictionary)
